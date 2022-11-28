@@ -1,0 +1,12 @@
+Django==4.1.2
+django-crispy-forms>=1.9.0
+Pillow==9.3.0
+ckeditor==2.0.0
+
+#comandos manuales
+    #pip install django
+    #python -m pip install django-crispy-forms
+    #python -m pip install Pillow
+    #pip install django-ckeditor
+
+    #pip install -r requirements.txt

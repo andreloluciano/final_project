@@ -1,0 +1,67 @@
+{% extends 'blog/base.html' %}
+{% block content %}    
+    <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}" alt="">
+        <div class="media-body">
+        <div class="article-metadata">
+            <a class="btn btn-primary btn mr-2" href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>
+            <small class="text-muted">{{ object.date_posted }}</small>
+            <p>  </p>
+            {% if object.author == user %}
+            <div>
+                <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Actualizar Post</a> 
+                <a class="btn btn-outline-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Borrar Post</a>    
+            </div>
+            {% endif %} 
+            
+        </div>
+        <h2 class="article-title">{{ object.title }}</h2>
+        <p class="article-content">{{ object.content|safe }}</p>
+        </div>
+    </article>   
+   
+
+    <!-- Divider-->
+    <hr class="my-4" />
+
+    <form method="POST">
+      {% csrf_token %}
+        {{comment_form.as_p}}
+        <input type="submit" name="comment" class="btn btn-warning">
+      
+    </form>    
+
+     <hr class="my-2" />
+    <div class="main-comment-section">
+      {{comments.count}} Comment{{comments|pluralize}}
+    </div>
+    <hr class="my-2" />
+    
+    {% for comment in comments %}
+      <blockquote class="blockquote">
+        <p>{{ comment.content }}</p>
+      <footer class="blockquote-footer">
+         
+           Por </cite><a class="mr-2" href="{% url 'user-posts' comment.user.username %}">{{ comment.user|capfirst }}</a> <small class="text-muted">{{ comment.timestamp|date:"F d, Y" }}</small>
+          </cite> 
+
+           
+
+            
+               {% if user == comment.user %}
+            
+               <a class="btn btn-link btn-sm mt-1 mb-1" href="{% url 'socio-comment' comment.id %}">Borrar Comentario</a>  
+
+  
+                {% endif %}
+
+                <hr class="my-3" />
+
+            {% endfor %}
+
+          
+        </footer>
+      </blockquote>
+  
+
+{% endblock content %}
